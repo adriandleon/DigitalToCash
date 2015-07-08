@@ -16,11 +16,17 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     funciones.cpp \
     cashbox.cpp \
-    dbhandler.cpp
+    dbhandler.cpp \
+    cardswindow.cpp
 
 HEADERS  += mainwindow.h \
     funciones.h \
     cashbox.h \
-    dbhandler.h
+    dbhandler.h \
+    cardswindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    cardswindow.ui
+
+RESOURCES += \
+    recursos.qrc

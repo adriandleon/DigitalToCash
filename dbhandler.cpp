@@ -2,28 +2,53 @@
 
 DBHandler::DBHandler()
 {
-    mydb = QSqlDatabase::addDatabase("QSQLITE");
-    mydb.setDatabaseName("db.sqlite3");
 
-    //Abrir o Crear la Base de Datos
-    if (!mydb.open()){
-        //No se pudo abrir la Base de Datos
-        qDebug() << "No se pudo abrir la Base de Datos";
-
-        QMessageBox mensaje;
-        mensaje.setWindowTitle("Advertencia");
-        mensaje.setText("Falló la Conexión a la Base de Datos");
-        mensaje.setStandardButtons(QMessageBox::Cancel);
-        mensaje.setStandardButtons(QMessageBox::Ok);
-        mensaje.setDefaultButton(QMessageBox::Cancel);
-        mensaje.exec();
-    }
 }
 
 DBHandler::~DBHandler()
 {
-    //Cerrar la conexion a la BD
-    mydb.close();
+    //Cerrar la conexion a la BD si esta abierta
+    if(mydb.isOpen())
+    {
+        mydb.close();
+    }
+}
+
+bool DBHandler::Open()
+{
+    mydb = QSqlDatabase::addDatabase("QSQLITE");
+    mydb.setDatabaseName("db.sqlite3");
+
+    if(!mydb.isOpen())
+    {
+        if(!mydb.open()){
+            qDebug() << "Failed to open the database";
+            return false;
+        }
+        else{
+            qDebug() << "Conexión exitosa a la Base de Datos";
+            return true;
+        }
+    }
+    else
+    {
+        qDebug() << "La conexión ya se encuentra abierta.";
+        return true;
+    }
+}
+
+bool DBHandler::Close()
+{
+    if(mydb.isOpen())
+    {
+        mydb.removeDatabase("QSQLITE");
+        mydb.close();
+        qDebug() << "Se cerró la conexión a la Base de Datos";
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 bool DBHandler::createTableCashBox()
@@ -80,9 +105,10 @@ bool DBHandler::createTableCards()
     QString tableName = "cards";
 
     QString sql = "CREATE TABLE IF NOT EXISTS " + tableName + " ("
-                  "idcard INTEGER PRIMARY KEY, "
+                  "idcard INTEGER PRIMARY KEY AUTOINCREMENT, "
                   "emisor VARCHAR(100) NOT NULL, "
                   "tipo VARCHAR(100) NOT NULL, "
+                  "imagen VARCHAR, "
                   "comBanco REAL DEFAULT (0), "
                   "comPropia REAL DEFAULT (0) )";
 

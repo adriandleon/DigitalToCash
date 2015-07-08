@@ -8,6 +8,7 @@ public:
     CashBox();
     ~CashBox();
     float totalEfectivo();
+    bool get();
 
     struct Billete
     {
