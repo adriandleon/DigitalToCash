@@ -9,6 +9,8 @@ public:
     ~CashBox();
     float totalEfectivo();
     bool get();
+    void set(int cantMod[6]);
+    bool update();
 
     struct Billete
     {

@@ -14,19 +14,20 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    funciones.cpp \
     cashbox.cpp \
     dbhandler.cpp \
-    cardswindow.cpp
+    cardswindow.cpp \
+    cashboxwindow.cpp
 
 HEADERS  += mainwindow.h \
-    funciones.h \
     cashbox.h \
     dbhandler.h \
-    cardswindow.h
+    cardswindow.h \
+    cashboxwindow.h
 
 FORMS    += mainwindow.ui \
-    cardswindow.ui
+    cardswindow.ui \
+    cashboxwindow.ui
 
 RESOURCES += \
     recursos.qrc

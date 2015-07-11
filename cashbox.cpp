@@ -23,10 +23,18 @@ CashBox::~CashBox()
     // Destructor de Cash Box
 }
 
+void CashBox::set(int cantMod[6])
+{
+    int i = 0;
+    while(i < 6){
+        this->billetes[i].cantidad = cantMod[i];
+        i++;
+    }
+}
+
 bool CashBox::get()
 {
     if (dbhandler.Open()){
-        //No se pudo abrir la Base de Datos
         QString sql = "SELECT * FROM cashbox";
         QSqlQuery qry;
         if (qry.exec(sql))
@@ -50,6 +58,30 @@ bool CashBox::get()
             dbhandler.Close();
             return false;
         }
+    }
+    else{
+        return false;
+    }
+}
+
+bool CashBox::update()
+{
+    if (dbhandler.Open()){
+
+        QString sql;
+        QSqlQuery qry;
+        int i = 0;
+
+        while (i < 6)
+        {
+            sql = "UPDATE cashbox SET cantidad = " + QString::number(this->billetes[i].cantidad)
+                    + " WHERE id = " + QString::number(this->billetes[i].id);
+            qry.exec(sql);
+            i++;
+        }
+
+        dbhandler.Close();
+        return true;
     }
     else{
         return false;

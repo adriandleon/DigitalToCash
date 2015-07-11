@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/todos.jpg</file>
+        <file alias="billetes">images/todos.jpg</file>
+        <file alias="billetes-mini">images/cashbox.jpg</file>
+        <file alias="agregar">images/button-add.png</file>
+        <file alias="eliminar">images/button-delete.png</file>
     </qresource>
 </RCC>

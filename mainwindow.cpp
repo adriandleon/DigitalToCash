@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "cardswindow.h"
+#include "cashboxwindow.h"
 #include <math.h>
+#include <QDialogButtonBox>
 
 void createTables(QSqlDatabase mydb);
 
@@ -32,58 +34,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     dbhandler.Close();
 
-    //MOSTRAR CAJA DE EFECTIVO
-    CashBox cb;
-    cb.get();
-
-    QString s0 = QString::number(cb.billetes[0].cantidad);
-    QString s1 = QString::number(cb.billetes[0].valor);
-    ui->label->setText(s0 + " billetes de " + s1);
-
-    s0 = QString::number(cb.billetes[1].cantidad);
-    s1 = QString::number(cb.billetes[1].valor);
-    ui->label_2->setText(s0 + " billetes de " + s1);
-
-    s0 = QString::number(cb.billetes[2].cantidad);
-    s1 = QString::number(cb.billetes[2].valor);
-    ui->label_3->setText(s0 + " billetes de " + s1);
-
-    s0 = QString::number(cb.billetes[3].cantidad);
-    s1 = QString::number(cb.billetes[3].valor);
-    ui->label_4->setText(s0 + " billetes de " + s1);
-
-    s0 = QString::number(cb.billetes[4].cantidad);
-    s1 = QString::number(cb.billetes[4].valor);
-    ui->label_5->setText(s0 + " billetes de " + s1);
-
-    s0 = QString::number(cb.billetes[5].cantidad);
-    s1 = QString::number(cb.billetes[5].valor);
-    ui->label_6->setText(s0 + " billetes de " + s1);
-
-    //Mostrar el Total de efectivo en la caja
-    ui->groupCaja->setTitle("Caja de Efectivo: " + QString::number(cb.totalEfectivo()) + "Bs.");
+    //Mostrar Caja de Efectivo
+    mostrarCajaEfectivo();
 
     //Mostrar la Lista de Tarjetas
-    modal = new QSqlQueryModel();
-
-    dbhandler.Open();
-    QSqlQuery* qry = new QSqlQuery(dbhandler.mydb);
-
-    qry->prepare("SELECT (idcard || '-' || emisor || ' ' || tipo) AS Tipo FROM cards ORDER BY emisor");
-
-    qry->exec();
-    modal->setQuery(*qry);
-
-    ui->comboBox->setModel(modal);
-    ui->comboBox_2->addItem("df", 3);
-
-    dbhandler.Close();
-    qDebug() << (modal->rowCount());
-
-    mapper = new QDataWidgetMapper;
-
-    mapper->setModel(modal);
-    mapper->toFirst();
+    mostrarListaTarjetas();
 
     //La hora actual
     QDate fecha = QDate::currentDate();
@@ -109,6 +64,19 @@ void MainWindow::on_actionLista_de_Tarjetas_triggered()
     CardsWindow cw;
     cw.setModal(true);
     cw.exec();
+    //Se actualiza la lista de tarjetas
+        mostrarListaTarjetas();
+}
+
+void MainWindow::on_action_Caja_de_Efectivo_triggered()
+{
+    CashBoxWindow cbw;
+    cbw.setModal(true);
+
+    if (cbw.exec())
+    {
+        mostrarCajaEfectivo();
+    }
 }
 
 void MainWindow::on_comboBox_currentIndexChanged(int index)
@@ -287,4 +255,63 @@ void MainWindow::sacarEfectivo(float cantidad)
         ui->billetes_estado->setText("No hay suficiente dinero en la caja. ");
         ui->billetes_estado->setAlignment(Qt::AlignHCenter);
     }
+}
+
+void MainWindow::mostrarCajaEfectivo()
+{
+    //MOSTRAR CAJA DE EFECTIVO
+    CashBox cb;
+    cb.get();
+
+    QString s0 = QString::number(cb.billetes[0].cantidad);
+    QString s1 = QString::number(cb.billetes[0].valor);
+    ui->label->setText(s0 + " billetes de " + s1);
+
+    s0 = QString::number(cb.billetes[1].cantidad);
+    s1 = QString::number(cb.billetes[1].valor);
+    ui->label_2->setText(s0 + " billetes de " + s1);
+
+    s0 = QString::number(cb.billetes[2].cantidad);
+    s1 = QString::number(cb.billetes[2].valor);
+    ui->label_3->setText(s0 + " billetes de " + s1);
+
+    s0 = QString::number(cb.billetes[3].cantidad);
+    s1 = QString::number(cb.billetes[3].valor);
+    ui->label_4->setText(s0 + " billetes de " + s1);
+
+    s0 = QString::number(cb.billetes[4].cantidad);
+    s1 = QString::number(cb.billetes[4].valor);
+    ui->label_5->setText(s0 + " billetes de " + s1);
+
+    s0 = QString::number(cb.billetes[5].cantidad);
+    s1 = QString::number(cb.billetes[5].valor);
+    ui->label_6->setText(s0 + " billetes de " + s1);
+
+    //Mostrar el Total de efectivo en la caja
+    ui->groupCaja->setTitle("Caja de Efectivo: " + QString::number(cb.totalEfectivo()) + "Bs.");
+}
+
+void MainWindow::mostrarListaTarjetas()
+{
+    //Mostrar la Lista de Tarjetas
+    modal = new QSqlQueryModel();
+
+    dbhandler.Open();
+    QSqlQuery* qry = new QSqlQuery(dbhandler.mydb);
+
+    qry->prepare("SELECT (idcard || '-' || emisor || ' ' || tipo) AS Tipo FROM cards ORDER BY emisor");
+
+    qry->exec();
+    modal->setQuery(*qry);
+
+    ui->comboBox->setModel(modal);
+    ui->comboBox_2->addItem("df", 3);
+
+    dbhandler.Close();
+    //qDebug() << (modal->rowCount());
+
+    mapper = new QDataWidgetMapper;
+
+    mapper->setModel(modal);
+    mapper->toFirst();
 }

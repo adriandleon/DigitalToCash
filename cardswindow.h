@@ -29,6 +29,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_buttonBox_accepted();
+
 private:
     Ui::CardsWindow *ui;
     DBHandler dbhandler;

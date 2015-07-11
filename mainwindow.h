@@ -25,6 +25,8 @@ private slots:
 
     void on_actionLista_de_Tarjetas_triggered();
 
+    void on_action_Caja_de_Efectivo_triggered();
+
     void on_comboBox_currentIndexChanged(int index);
 
     void on_pushButton_clicked();
@@ -42,6 +44,8 @@ private:
     DBHandler dbhandler;
     void leerTarjeta(QString id);
     void sacarEfectivo(float total);
+    void mostrarCajaEfectivo();
+    void mostrarListaTarjetas();
 };
 
 #endif // MAINWINDOW_H

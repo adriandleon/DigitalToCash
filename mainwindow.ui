@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>820</width>
-    <height>489</height>
+    <height>512</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -217,7 +217,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-image: url(:/images/todos.jpg);</string>
+       <string notr="true">background-image: url(:/billetes);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -946,7 +946,7 @@ p, li { white-space: pre-wrap; }
     <string>&amp;Caja de Efectivo</string>
    </property>
    <property name="toolTip">
-    <string>Caja de EfectivoCaja de EfectivoCaja de EfectivoCaja de Efectivo</string>
+    <string>Caja de Efectivo</string>
    </property>
    <property name="statusTip">
     <string>Agregar efectivo y ver la cantidad de billetes disponibles.</string>
