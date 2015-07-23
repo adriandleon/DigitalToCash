@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "cardswindow.h"
 #include "cashboxwindow.h"
+#include "poswindow.h"
 #include <math.h>
 #include <QDialogButtonBox>
 
@@ -40,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //Mostrar la Lista de Tarjetas
     mostrarListaTarjetas();
 
+    //Mostrar la Lista de P.O.S.
+    mostrarListaPOS();
+
     //La hora actual
     QDate fecha = QDate::currentDate();
     ui->label_19->setText(fecha.toString("dd/MM/yyyy"));
@@ -66,6 +70,15 @@ void MainWindow::on_actionLista_de_Tarjetas_triggered()
     cw.exec();
     //Se actualiza la lista de tarjetas
         mostrarListaTarjetas();
+}
+
+void MainWindow::on_action_Puntos_de_Venta_POS_triggered()
+{
+    POSWindow posw;
+    posw.setModal(true);
+    posw.exec();
+    //Se actualiza la lista de POS
+        mostrarListaPOS();
 }
 
 void MainWindow::on_action_Caja_de_Efectivo_triggered()
@@ -104,23 +117,24 @@ void MainWindow::leerTarjeta(QString id)
             while(qry->next())
             {
                 //Restar comisiones
-                if(ui->radioButton_2->isChecked())
+                if(ui->radioButton_3->isChecked())
                 {
                     double comEmisor = ui->doubleSpinBox->value() * qry->value(1).toDouble();
-                    ui->label_11->setText(QString::number(comEmisor, 'g', 8) + " (" + QString::number(qry->value(1).toDouble() * 100) + "%)");
+                    ui->label_11->setText(QString::number(comEmisor, 'f', 2) + " (" + QString::number(qry->value(1).toDouble() * 100) + "%)");
 
                     double subtotal = ui->doubleSpinBox->value() - comEmisor;
-                    ui->label_16->setText(QString::number(subtotal, 'g', 8));
+                    ui->label_16->setText(QString::number(subtotal, 'f', 2));
 
                     double comPropia = subtotal * qry->value(2).toDouble();
-                    ui->label_12->setText(QString::number(comPropia, 'g', 8) + " (" + QString::number(qry->value(2).toDouble() * 100) + "%)");
+                    ui->label_12->setText(QString::number(comPropia, 'f', 2) + " (" + QString::number(qry->value(2).toDouble() * 100) + "%)");
 
                     double total = subtotal - comPropia;
-                    ui->label_18->setText(QString::number(total, 'g', 8));
+                    ui->label_18->setText(QString::number(total, 'f', 2));
                 }
                 //Total para el cliente
                 else if(ui->radioButton->isChecked())
                 {
+                    /*
                     double comPropia = ui->doubleSpinBox->value() * qry->value(2).toDouble();
                     ui->label_11->setText(QString::number(comPropia, 'g', 8) + " (" + QString::number(qry->value(2).toDouble() * 100) + "%)");
 
@@ -132,6 +146,37 @@ void MainWindow::leerTarjeta(QString id)
 
                     double total = subtotal + comEmisor;
                     ui->label_18->setText(QString::number(total, 'g', 8));
+                    */
+                    double comEmisor = (ui->doubleSpinBox->value() / (1 - qry->value(1).toDouble())) - ui->doubleSpinBox->value();
+                    ui->label_11->setText(QString::number(comEmisor, 'f', 2) + " (" + QString::number(qry->value(1).toDouble() * 100) + "%)");
+
+                    double subtotal = ui->doubleSpinBox->value() + comEmisor;
+                    ui->label_16->setText(QString::number(subtotal, 'f', 2));
+
+                    double comPropia = (subtotal / (1 - qry->value(2).toDouble())) - subtotal;
+                    ui->label_12->setText(QString::number(comPropia, 'f', 2) + " (" + QString::number(qry->value(2).toDouble() * 100) + "%)");
+
+                    double total = subtotal + comPropia;
+                    ui->label_18->setText(QString::number(total, 'f', 2));
+                }
+                //Sin Comisiones
+                else if(ui->radioButton_2->isChecked())
+                {
+                    double comEmisor = (ui->doubleSpinBox->value() / (1 - qry->value(1).toDouble())) - ui->doubleSpinBox->value();
+                    ui->label_11->setText(QString::number(comEmisor, 'f', 2) + " (" + QString::number(qry->value(1).toDouble() * 100) + "%)");
+
+                    double subtotal = ui->doubleSpinBox->value() + comEmisor;
+                    ui->label_16->setText(QString::number(subtotal, 'f', 2));
+
+                    double comPropia = 0.0;
+                    ui->label_12->setText(QString::number(comPropia, 'f', 2) + " (0%)");
+
+                    double total = subtotal + comPropia;
+                    ui->label_18->setText(QString::number(total, 'f', 2));
+                }
+                else
+                {
+                    qDebug() << "No se ha seleccionado ningún tipo de operación.";
                 }
 
             }
@@ -152,8 +197,27 @@ void MainWindow::on_pushButton_clicked()
     //ui->widget->show();
     //ui->widget->hide();
 
+    //Si la operacion es 'Restar Comisiones' se utiliza el total, sino el monto ingresado
+    float cantidad = 0;
+    if(ui->radioButton_3->isChecked())
+    {
+        cantidad = ui->label_18->text().toFloat();
+    }
+    else
+    {
+        cantidad = ui->doubleSpinBox->value();
+    }
+
     //Mostrar los tipos de billetes
-    sacarEfectivo(ui->label_18->text().toFloat());
+    sacarEfectivo(cantidad);
+}
+
+void MainWindow::on_radioButton_clicked()
+{
+    int n = ui->comboBox->currentText().indexOf('-', 0);
+    QString id = ui->comboBox->currentText().left(n);
+
+    leerTarjeta(id);
 }
 
 void MainWindow::on_radioButton_2_clicked()
@@ -164,7 +228,7 @@ void MainWindow::on_radioButton_2_clicked()
     leerTarjeta(id);
 }
 
-void MainWindow::on_radioButton_clicked()
+void MainWindow::on_radioButton_3_clicked()
 {
     int n = ui->comboBox->currentText().indexOf('-', 0);
     QString id = ui->comboBox->currentText().left(n);
@@ -225,7 +289,7 @@ void MainWindow::sacarEfectivo(float cantidad)
         }
         if (cantidad > 0)
         {
-            ui->billetes_estado->setText("Sobran " + QString::number(cantidad) + "Bs.");
+            ui->billetes_estado->setText("Sobran " + QString::number(cantidad, 'f', 2) + "Bs.");
             ui->billetes_estado->setAlignment(Qt::AlignHCenter);
         }
         else
@@ -305,7 +369,31 @@ void MainWindow::mostrarListaTarjetas()
     modal->setQuery(*qry);
 
     ui->comboBox->setModel(modal);
-    ui->comboBox_2->addItem("df", 3);
+
+    dbhandler.Close();
+    //qDebug() << (modal->rowCount());
+
+    mapper = new QDataWidgetMapper;
+
+    mapper->setModel(modal);
+    mapper->toFirst();
+}
+
+void MainWindow::mostrarListaPOS()
+{
+    //Mostrar la Lista de Tarjetas
+    modal = new QSqlQueryModel();
+
+    dbhandler.Open();
+    QSqlQuery* qry = new QSqlQuery(dbhandler.mydb);
+
+    qry->prepare("SELECT (idpos || '-' || nombre || ' #' || codigo) AS Tipo FROM pos ORDER BY idpos");
+
+    qry->exec();
+    modal->setQuery(*qry);
+
+    ui->comboBox_2->setModel(modal);
+    //ui->comboBox_2->addItem("df", 3);
 
     dbhandler.Close();
     //qDebug() << (modal->rowCount());

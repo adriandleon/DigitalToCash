@@ -37,6 +37,10 @@ private slots:
 
     void on_doubleSpinBox_editingFinished();
 
+    void on_radioButton_3_clicked();
+
+    void on_action_Puntos_de_Venta_POS_triggered();
+
 private:
     Ui::MainWindow *ui;
     QDataWidgetMapper *mapper;
@@ -46,6 +50,7 @@ private:
     void sacarEfectivo(float total);
     void mostrarCajaEfectivo();
     void mostrarListaTarjetas();
+    void mostrarListaPOS();
 };
 
 #endif // MAINWINDOW_H

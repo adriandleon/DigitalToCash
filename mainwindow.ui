@@ -28,16 +28,6 @@
         <property name="modelColumn">
          <number>0</number>
         </property>
-        <item>
-         <property name="text">
-          <string>Visa Banco Provincial</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>MasterCard Banco Banesco</string>
-         </property>
-        </item>
        </widget>
       </item>
       <item row="3" column="1">
@@ -54,18 +44,7 @@
        </spacer>
       </item>
       <item row="3" column="7">
-       <widget class="QComboBox" name="comboBox_2">
-        <item>
-         <property name="text">
-          <string>Tebron #09845</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Siemens #83475</string>
-         </property>
-        </item>
-       </widget>
+       <widget class="QComboBox" name="comboBox_2"/>
       </item>
       <item row="1" column="5">
        <widget class="QLabel" name="label_9">
@@ -669,7 +648,7 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>20</x>
          <y>10</y>
-         <width>251</width>
+         <width>331</width>
          <height>131</height>
         </rect>
        </property>
@@ -681,7 +660,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>160</x>
           <y>30</y>
-          <width>70</width>
+          <width>121</width>
           <height>17</height>
          </rect>
         </property>
@@ -697,7 +676,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>160</x>
           <y>69</y>
-          <width>70</width>
+          <width>121</width>
           <height>17</height>
          </rect>
         </property>
@@ -752,7 +731,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>160</x>
           <y>46</y>
-          <width>70</width>
+          <width>121</width>
           <height>20</height>
          </rect>
         </property>
@@ -785,9 +764,9 @@ p, li { white-space: pre-wrap; }
        <widget class="QLabel" name="label_18">
         <property name="geometry">
          <rect>
-          <x>150</x>
+          <x>163</x>
           <y>90</y>
-          <width>80</width>
+          <width>121</width>
           <height>17</height>
          </rect>
         </property>
@@ -856,6 +835,9 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Ay&amp;uda</string>
     </property>
+    <addaction name="separator"/>
+    <addaction name="actionManual_de_Usuario"/>
+    <addaction name="actionManual_del_Sistema"/>
     <addaction name="separator"/>
     <addaction name="action_Soporte"/>
     <addaction name="action_Licencia"/>
@@ -953,6 +935,16 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="whatsThis">
     <string/>
+   </property>
+  </action>
+  <action name="actionManual_de_Usuario">
+   <property name="text">
+    <string>Manual del &amp;Usuario</string>
+   </property>
+  </action>
+  <action name="actionManual_del_Sistema">
+   <property name="text">
+    <string>Manual del Sist&amp;ema</string>
    </property>
   </action>
  </widget>

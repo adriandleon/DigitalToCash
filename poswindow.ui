@@ -1,41 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CardsWindow</class>
- <widget class="QDialog" name="CardsWindow">
+ <class>POSWindow</class>
+ <widget class="QDialog" name="POSWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>633</width>
-    <height>296</height>
+    <width>469</width>
+    <height>245</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Administrar Tarjetas</string>
-  </property>
-  <property name="modal">
-   <bool>false</bool>
+   <string>Administrar Puntos de Ventas</string>
   </property>
   <widget class="QTreeView" name="treeView">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>351</width>
-     <height>241</height>
+     <width>241</width>
+     <height>221</height>
     </rect>
-   </property>
-   <property name="indentation">
-    <number>10</number>
    </property>
   </widget>
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>372</x>
+     <x>260</x>
      <y>10</y>
-     <width>251</width>
-     <height>241</height>
+     <width>201</width>
+     <height>171</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -47,9 +41,9 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>16</x>
       <y>20</y>
-      <width>179</width>
+      <width>171</width>
       <height>29</height>
      </rect>
     </property>
@@ -60,7 +54,7 @@
         <string>Ente emisor de la tarjeta</string>
        </property>
        <property name="text">
-        <string>Emisor</string>
+        <string>Nombre</string>
        </property>
       </widget>
      </item>
@@ -79,12 +73,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>32</x>
-      <y>60</y>
-      <width>163</width>
+      <x>16</x>
+      <y>57</y>
+      <width>171</width>
       <height>29</height>
      </rect>
     </property>
@@ -92,7 +86,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Tipo</string>
+        <string>Nro. / Código</string>
        </property>
       </widget>
      </item>
@@ -111,8 +105,8 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>202</y>
+      <x>17</x>
+      <y>133</y>
       <width>85</width>
       <height>27</height>
      </rect>
@@ -124,8 +118,8 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>111</x>
-      <y>202</y>
+      <x>108</x>
+      <y>133</y>
       <width>85</width>
       <height>27</height>
      </rect>
@@ -137,7 +131,7 @@
    <widget class="QLineEdit" name="lineHidden_Id">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>180</x>
       <y>0</y>
       <width>21</width>
       <height>27</height>
@@ -147,9 +141,9 @@
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>165</y>
-      <width>183</width>
+      <x>17</x>
+      <y>95</y>
+      <width>171</width>
       <height>29</height>
      </rect>
     </property>
@@ -162,71 +156,8 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_3"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>47</x>
-      <y>128</y>
-      <width>186</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Comisiones propias</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+      <widget class="QLineEdit" name="lineEdit_3">
        <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-       <property name="readOnly">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>13</x>
-      <y>97</y>
-      <width>220</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>% de comisión del Emisor</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDoubleSpinBox" name="doubleSpinBox">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="locale">
-        <locale language="Spanish" country="Venezuela"/>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-       <property name="readOnly">
         <bool>false</bool>
        </property>
       </widget>
@@ -237,21 +168,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>260</y>
-     <width>85</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&amp;Cerrar</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>260</y>
+     <x>270</x>
+     <y>200</y>
      <width>85</width>
      <height>27</height>
     </rect>
@@ -260,24 +178,20 @@
     <string>&amp;Agregar</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>200</y>
+     <width>85</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&amp;Cerrar</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>treeView</sender>
-   <signal>activated(QModelIndex)</signal>
-   <receiver>pushButton</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>200</x>
-     <y>120</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>447</x>
-     <y>255</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
