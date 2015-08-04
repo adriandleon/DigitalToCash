@@ -46,11 +46,13 @@ private:
     QDataWidgetMapper *mapper;
     QSqlQueryModel *modal;
     DBHandler dbhandler;
+    float efectivoCaja;
     void leerTarjeta(QString id);
-    void sacarEfectivo(float total);
+    bool sacarEfectivo(float total);
     void mostrarCajaEfectivo();
     void mostrarListaTarjetas();
     void mostrarListaPOS();
+    void procesar();
 };
 
 #endif // MAINWINDOW_H

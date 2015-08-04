@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     dbhandler.cpp \
     cardswindow.cpp \
     cashboxwindow.cpp \
-    poswindow.cpp
+    poswindow.cpp \
+    operations.cpp
 
 HEADERS  += mainwindow.h \
     cashbox.h \
     dbhandler.h \
     cardswindow.h \
     cashboxwindow.h \
-    poswindow.h
+    poswindow.h \
+    operations.h
 
 FORMS    += mainwindow.ui \
     cardswindow.ui \

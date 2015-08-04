@@ -209,7 +209,38 @@ void MainWindow::on_pushButton_clicked()
     }
 
     //Mostrar los tipos de billetes
-    sacarEfectivo(cantidad);
+    if(cantidad <= this->efectivoCaja)
+    {
+        QMessageBox mensaje;
+        mensaje.setIcon(QMessageBox::Question);
+        mensaje.setWindowTitle("Procesar");
+        mensaje.setText("¿Desea procesar la siguiente operación?");
+        mensaje.setInformativeText("Monto: " + QString::number(cantidad) + " Bs.\nTarjeta: \nOperación: ");
+        mensaje.setStandardButtons(QMessageBox::No | QMessageBox::Yes);
+        mensaje.setDefaultButton(QMessageBox::Yes);
+
+        if (mensaje.exec() == QMessageBox::Yes)
+        {
+            sacarEfectivo(cantidad);
+            procesar();
+            mostrarCajaEfectivo();
+        }
+    }
+    else
+    {
+        QMessageBox mensaje;
+        mensaje.setIcon(QMessageBox::Warning);
+        mensaje.setWindowTitle("");
+        mensaje.setText("No hay suficiente efectivo en la Caja.");
+        mensaje.setInformativeText("Realice la operación por un monto menor o agregue más efectivo a la Caja.");
+        mensaje.setStandardButtons(QMessageBox::Close);
+        mensaje.setDefaultButton(QMessageBox::Close);
+
+        ui->billetes_estado->setText("No hay suficiente dinero en la caja. ");
+        ui->billetes_estado->setAlignment(Qt::AlignHCenter);
+
+        mensaje.exec();
+    }
 }
 
 void MainWindow::on_radioButton_clicked()
@@ -244,7 +275,7 @@ void MainWindow::on_doubleSpinBox_editingFinished()
     leerTarjeta(id);
 }
 
-void MainWindow::sacarEfectivo(float cantidad)
+bool MainWindow::sacarEfectivo(float cantidad)
 {
     CashBox cb;
     cb.get();
@@ -312,12 +343,14 @@ void MainWindow::sacarEfectivo(float cantidad)
         ui->billetes_2->setText(QString::number(resultado[5]));
         ui->billetes_2->setAlignment(Qt::AlignHCenter);
 
+        return true;
     }
     else
     {
         //return 'No hay suficiente dinero en la caja. ' + str(total) + ' Bs.';
         ui->billetes_estado->setText("No hay suficiente dinero en la caja. ");
         ui->billetes_estado->setAlignment(Qt::AlignHCenter);
+        return false;
     }
 }
 
@@ -353,6 +386,7 @@ void MainWindow::mostrarCajaEfectivo()
 
     //Mostrar el Total de efectivo en la caja
     ui->groupCaja->setTitle("Caja de Efectivo: " + QString::number(cb.totalEfectivo()) + "Bs.");
+    this->efectivoCaja = cb.totalEfectivo();
 }
 
 void MainWindow::mostrarListaTarjetas()
@@ -402,4 +436,23 @@ void MainWindow::mostrarListaPOS()
 
     mapper->setModel(modal);
     mapper->toFirst();
+}
+
+void MainWindow::procesar()
+{
+    CashBox cb;
+    cb.get();
+
+    int modificado[6];
+
+    //Recogemos los nuevos valores y los almacenamos en un arreglo
+    modificado[0] = cb.billetes[0].cantidad - ui->billetes_100->toPlainText().toInt();
+    modificado[1] = cb.billetes[1].cantidad - ui->billetes_50->toPlainText().toInt();
+    modificado[2] = cb.billetes[2].cantidad - ui->billetes_20->toPlainText().toInt();
+    modificado[3] = cb.billetes[3].cantidad - ui->billetes_10->toPlainText().toInt();
+    modificado[4] = cb.billetes[4].cantidad - ui->billetes_5->toPlainText().toInt();
+    modificado[5] = cb.billetes[5].cantidad - ui->billetes_2->toPlainText().toInt();
+
+    cb.set(modificado);
+    cb.update();
 }
